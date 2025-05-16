@@ -10,21 +10,27 @@ fn main() {
    
     let color = Rgb([1, 1, 1]);
 
-
-  
     let mut segments = Vec::new();
     let mut bbox = BoundingBox::new();
 
-    let lsys = LSystem {
-        line_len: 10,
-        max_iterations: 2,
-        angle_change: 90.0,
-        bouding_box: BoundingBox::new(),
-        axiom: "F+F+F+F".to_string(),
-        rules: HashMap::from([('F', "F+F-F-FF+F+F-F".to_string())])
-    };
+    // let lsys = LSystem {
+    //     line_len: 10,
+    //     max_iterations: 2,
+    //     angle_change: 90.0,
+    //     bouding_box: BoundingBox::new(),
+    //     axiom: "F+F+F+F".to_string(),
+    //     rules: HashMap::from([('F', "F+F-F-FF+F+F-F".to_string())])
+    // };
 
-    lsys.draw(&lsys.axiom, Vec2(100.0, 100.0), 0.0, 0, &mut segments, &mut bbox);
+    let lsys = LSystemBuilder::new("F".to_string())
+        .line_len(10)
+        .max_iterations(6)
+        .angle_change(120.0)
+        .axiom("F+F+F")
+        .rule('F', "F-F+F")
+        .build();
+
+    lsys.draw(&lsys.axiom, Vec2(200.0, 200.0), 0.0, 0, &mut segments, &mut bbox);
     // for (start, end) in &segments {
     //     println!("Start: ({:.2}, {:.2}) -> End: ({:.2}, {:.2})", start.0, start.1, end.0, end.1);
     // }
@@ -42,5 +48,5 @@ fn main() {
             color
         );
      }
-    img.save("lsystem.png").unwrap();
+    img.save("lsystem2.png").unwrap();
 }
